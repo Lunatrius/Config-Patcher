@@ -35,9 +35,9 @@ public class ConfigPatcher {
         if (this.generatePatches) {
             this.directoryBase = FileHelper.getCanonicalFile(this.directoryMain.getParentFile(), this.directoryMain.getName() + "-base");
             this.directoryDiff = FileHelper.getCanonicalFile(this.directoryOverride, "auto-generated");
+        } else {
+            new Patch(this.directoryMain, this.directoryOverride).execute();
         }
-
-        new Patch(this.directoryMain, this.directoryOverride).execute();
     }
 
     @Mod.EventHandler
