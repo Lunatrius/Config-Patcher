@@ -31,7 +31,7 @@ public class ConfigPatcher {
     public void preInit(final FMLPreInitializationEvent event) {
         this.directoryMain = FileHelper.getCanonicalFile(event.getModConfigurationDirectory());
         this.directoryOverride = FileHelper.getCanonicalFile(this.directoryMain.getParentFile(), this.directoryMain.getName() + "-override");
-        this.generatePatches = new File(this.directoryMain.getParentFile(), "generate_patches").exists();
+        this.generatePatches = new File(this.directoryMain.getParentFile(), "generate_patches.txt").exists();
         if (this.generatePatches) {
             this.directoryBase = FileHelper.getCanonicalFile(this.directoryMain.getParentFile(), this.directoryMain.getName() + "-base");
             this.directoryDiff = FileHelper.getCanonicalFile(this.directoryOverride, "auto-generated");
