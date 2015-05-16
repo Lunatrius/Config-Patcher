@@ -1,5 +1,6 @@
 package com.github.lunatrius.configpatcher.patch;
 
+import com.github.lunatrius.configpatcher.reference.Blacklist;
 import com.github.lunatrius.configpatcher.reference.Reference;
 import com.github.lunatrius.configpatcher.util.FileHelper;
 
@@ -51,12 +52,20 @@ public class Patch {
 
         for (final File file : files) {
             if (file.isFile()) {
+                if (Blacklist.isBlacklisted(path, file.getName())) {
+                    continue;
+                }
+
                 processFile(file, new File(this.directoryMain, path));
             }
         }
 
         for (final File file : files) {
             if (file.isDirectory()) {
+                if (Blacklist.isBlacklisted(path, file.getName())) {
+                    continue;
+                }
+
                 processDirectory(file, path + "/" + file.getName());
             }
         }

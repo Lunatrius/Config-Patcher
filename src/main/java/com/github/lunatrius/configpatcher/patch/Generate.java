@@ -1,5 +1,6 @@
 package com.github.lunatrius.configpatcher.patch;
 
+import com.github.lunatrius.configpatcher.reference.Blacklist;
 import com.github.lunatrius.configpatcher.reference.Reference;
 import com.github.lunatrius.configpatcher.util.ConfigurationHelper;
 import com.github.lunatrius.configpatcher.util.ConfigurationType;
@@ -51,12 +52,20 @@ public class Generate {
 
         for (final File file : files) {
             if (file.isFile()) {
+                if (Blacklist.isBlacklisted(path, file.getName())) {
+                    continue;
+                }
+
                 processFileCopy(file, new File(this.directoryBase, path));
             }
         }
 
         for (final File file : files) {
             if (file.isDirectory()) {
+                if (Blacklist.isBlacklisted(path, file.getName())) {
+                    continue;
+                }
+
                 processDirectoryCopy(file, path + "/" + file.getName());
             }
         }
@@ -81,12 +90,20 @@ public class Generate {
 
         for (final File file : files) {
             if (file.isFile()) {
+                if (Blacklist.isBlacklisted(path, file.getName())) {
+                    continue;
+                }
+
                 processFileGenerate(file, new File(this.directoryBase, path), new File(this.directoryDiff, path));
             }
         }
 
         for (final File file : files) {
             if (file.isDirectory()) {
+                if (Blacklist.isBlacklisted(path, file.getName())) {
+                    continue;
+                }
+
                 processDirectoryGenerate(file, path + "/" + file.getName());
             }
         }
