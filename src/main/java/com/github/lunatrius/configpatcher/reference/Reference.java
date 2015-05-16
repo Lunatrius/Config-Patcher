@@ -9,6 +9,9 @@ public class Reference {
     public static final String VERSION = "${version}";
     public static final String FORGE = "${forgeversion}";
     public static final String MINECRAFT = "${mcversion}";
+    public static final String PROXY_SERVER = "com.github.lunatrius.configpatcher.proxy.ServerProxy";
+    public static final String PROXY_CLIENT = "com.github.lunatrius.configpatcher.proxy.ClientProxy";
+    public static final String GUI_FACTORY = "com.github.lunatrius.configpatcher.client.gui.GuiFactory";
 
     public static Logger logger = LogManager.getLogger(Reference.MODID);
 }

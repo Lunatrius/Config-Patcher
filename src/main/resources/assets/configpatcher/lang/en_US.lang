@@ -1,0 +1,10 @@
+# gui - config - categories
+configpatcher.config.category.patcher=Patcher
+
+# gui - config - patcher
+configpatcher.config.patch=Patch
+configpatcher.config.patch.tooltip=Apply patch files on startup.
+configpatcher.config.patchOnce=Patch Once
+configpatcher.config.patchOnce.tooltip=Apply patch files on startup once.
+configpatcher.config.generate=Generate Patches
+configpatcher.config.generate.tooltip=Generate patch files on startup.
