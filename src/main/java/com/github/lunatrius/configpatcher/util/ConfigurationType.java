@@ -1,11 +1,13 @@
 package com.github.lunatrius.configpatcher.util;
 
 import com.github.lunatrius.configpatcher.reference.Reference;
+import com.google.common.base.Strings;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,7 +53,8 @@ public enum ConfigurationType {
                             configurationDiff = new Configuration(fileDiff);
                         }
 
-                        final Property propertyDiff = ConfigurationHelper.getPropertyFor(configurationDiff, categoryName, key, "Original: " + propertyBase.getString(), propertyMain);
+                        final String comment = !Strings.isNullOrEmpty(propertyBase.getString()) ? propertyBase.getString() : Arrays.toString(propertyBase.getStringList());
+                        final Property propertyDiff = ConfigurationHelper.getPropertyFor(configurationDiff, categoryName, key, "Original: " + comment, propertyMain);
                         ConfigurationHelper.copyProperty(propertyDiff, propertyMain);
                     }
                 }
