@@ -37,7 +37,7 @@ public enum ConfigurationType {
         @Override
         public void generatePatch(final File fileMain, final File fileBase, final File fileDiff) {
             final Configuration configurationMain = new Configuration(fileMain);
-            final Configuration configurationBase = new Configuration(fileBase);
+            final Configuration configurationBase = fileBase.exists() ? new Configuration(fileBase) : new Configuration();
             Configuration configurationDiff = null;
 
             final Set<String> categoryNames = configurationMain.getCategoryNames();

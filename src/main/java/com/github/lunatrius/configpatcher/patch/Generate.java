@@ -114,9 +114,11 @@ public class Generate {
         final File fileDiff = new File(directoryDiff, fileMain.getName());
 
         final ConfigurationType typeMain = ConfigurationHelper.getConfigurationType(fileMain);
-        final ConfigurationType typeBase = ConfigurationHelper.getConfigurationType(fileBase);
-        if (typeMain != typeBase) {
-            return;
+        if (fileBase.exists()) {
+            final ConfigurationType typeBase = ConfigurationHelper.getConfigurationType(fileBase);
+            if (typeMain != typeBase) {
+                return;
+            }
         }
 
         typeMain.generatePatch(fileMain, fileBase, fileDiff);
