@@ -44,10 +44,10 @@ public final class ConfigurationHelper {
 
     public static Property getPropertyFor(final Configuration configuration, final String categoryName, final String key, final String comment, final Property prop) {
         if (prop.isList()) {
-            return configuration.get(categoryName, key, prop.getDefaults(), comment, prop.getType());
+            return configuration.get(categoryName, key, new String[] { "<config patcher dummy value>" }, comment, prop.getType());
         }
 
-        return configuration.get(categoryName, key, prop.getDefault(), comment, prop.getType());
+        return configuration.get(categoryName, key, "<config patcher dummy value>", comment, prop.getType());
     }
 
     public static boolean arePropertiesEqual(final Property propertyA, final Property propertyB) {
