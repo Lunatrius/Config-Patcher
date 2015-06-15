@@ -13,6 +13,10 @@ public final class ConfigurationHelper {
     private static final Field fieldFile = ReflectionHelper.findField(Configuration.class, "file");
 
     public static ConfigurationType getConfigurationType(final File file) {
+        if (!file.exists()) {
+            return ConfigurationType.NONEXISTENT;
+        }
+
         if (isForgeConfiguration(file)) {
             return ConfigurationType.FORGE;
         }
@@ -21,17 +25,14 @@ public final class ConfigurationHelper {
     }
 
     public static boolean isForgeConfiguration(final File file) {
-        try {
-            final Configuration configuration = newInstance(null);
-            fieldFile.set(configuration, file);
+        final Configuration configuration = newInstance(null);
+        if (!setConfigurationFile(configuration, file)) {
+            return false;
+        }
 
-            try {
-                configuration.load();
-            } catch (final Throwable t) {
-                return false;
-            }
-        } catch (final Exception e) {
-            Reference.logger.error("Could not set the 'file' field!", e);
+        try {
+            configuration.load();
+        } catch (final Throwable t) {
             return false;
         }
 
@@ -44,7 +45,9 @@ public final class ConfigurationHelper {
 
     public static Configuration newInstance(final File file, final boolean empty) {
         if (file == null || !file.exists()) {
-            return new Configuration();
+            final Configuration configuration = new Configuration();
+            setConfigurationFile(configuration, file);
+            return configuration;
         }
 
         final Configuration configuration = new Configuration(file, true);
@@ -55,6 +58,16 @@ public final class ConfigurationHelper {
         }
 
         return configuration;
+    }
+
+    public static boolean setConfigurationFile(final Configuration configuration, final File file) {
+        try {
+            fieldFile.set(configuration, file);
+        } catch (final Exception e) {
+            Reference.logger.error("Could not set the 'file' field!", e);
+        }
+
+        return true;
     }
 
     public static Property getPropertyFor(final Configuration configuration, final String categoryName, final String key, final Property prop) {

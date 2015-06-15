@@ -10,7 +10,7 @@ public class Patcher {
         final ConfigurationType typeOverride = ConfigurationHelper.getConfigurationType(fileOverride);
         final ConfigurationType typeMain = ConfigurationHelper.getConfigurationType(fileMain);
 
-        if (typeOverride != typeMain) {
+        if (!typeOverride.isCompatibleWith(typeMain)) {
             return;
         }
 

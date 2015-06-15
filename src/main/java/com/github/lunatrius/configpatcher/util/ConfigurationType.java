@@ -72,7 +72,16 @@ public enum ConfigurationType {
             }
         }
     },
+    NONEXISTENT,
     UNKNOWN;
+
+    public boolean isCompatibleWith(final ConfigurationType type) {
+        if (this == UNKNOWN || type == UNKNOWN) {
+            return false;
+        }
+
+        return this == NONEXISTENT || type == NONEXISTENT || this == type;
+    }
 
     public void patchFile(final File fileTarget, final File fileSource) {
     }
