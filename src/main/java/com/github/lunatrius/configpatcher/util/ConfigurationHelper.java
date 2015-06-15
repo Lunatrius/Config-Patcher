@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 public final class ConfigurationHelper {
     private static final Field fieldFile = ReflectionHelper.findField(Configuration.class, "file");
+    private static final Field fieldCaseSensitive = ReflectionHelper.findField(Configuration.class, "caseSensitiveCustomCategories");
 
     public static ConfigurationType getConfigurationType(final File file) {
         if (!file.exists()) {
@@ -44,17 +45,12 @@ public final class ConfigurationHelper {
     }
 
     public static Configuration newInstance(final File file, final boolean empty) {
-        if (file == null || !file.exists()) {
-            final Configuration configuration = new Configuration();
-            setConfigurationFile(configuration, file);
-            return configuration;
-        }
+        final Configuration configuration = new Configuration();
+        setConfigurationFile(configuration, file);
+        setConfigurationCaseSensitive(configuration, true);
 
-        final Configuration configuration = new Configuration(file, true);
-        if (empty) {
-            for (String category : configuration.getCategoryNames()) {
-                configuration.removeCategory(configuration.getCategory(category));
-            }
+        if (file != null && file.exists() && !empty) {
+            configuration.load();
         }
 
         return configuration;
@@ -65,6 +61,18 @@ public final class ConfigurationHelper {
             fieldFile.set(configuration, file);
         } catch (final Exception e) {
             Reference.logger.error("Could not set the 'file' field!", e);
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean setConfigurationCaseSensitive(final Configuration configuration, final boolean caseSensitive) {
+        try {
+            fieldCaseSensitive.set(configuration, caseSensitive);
+        } catch (final Exception e) {
+            Reference.logger.error("Could not set the 'caseSensitiveCustomCategories' field!", e);
+            return false;
         }
 
         return true;
