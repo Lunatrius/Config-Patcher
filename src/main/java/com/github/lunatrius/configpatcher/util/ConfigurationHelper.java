@@ -22,7 +22,7 @@ public final class ConfigurationHelper {
 
     public static boolean isForgeConfiguration(final File file) {
         try {
-            final Configuration configuration = new Configuration();
+            final Configuration configuration = newInstance(null);
             fieldFile.set(configuration, file);
 
             try {
@@ -36,6 +36,14 @@ public final class ConfigurationHelper {
         }
 
         return true;
+    }
+
+    public static Configuration newInstance(final File file) {
+        if (file == null || !file.exists()) {
+            return new Configuration();
+        }
+
+        return new Configuration(file, true);
     }
 
     public static Property getPropertyFor(final Configuration configuration, final String categoryName, final String key, final Property prop) {

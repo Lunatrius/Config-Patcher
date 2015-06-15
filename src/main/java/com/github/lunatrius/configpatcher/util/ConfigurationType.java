@@ -16,8 +16,8 @@ public enum ConfigurationType {
         @Override
         public void patchFile(final File fileTarget, final File fileSource) {
             Reference.logger.trace("Patching {}", FileHelper.getCanonicalFile(fileTarget));
-            final Configuration configurationTarget = new Configuration(fileTarget);
-            final Configuration configurationSource = new Configuration(fileSource);
+            final Configuration configurationTarget = ConfigurationHelper.newInstance(fileTarget);
+            final Configuration configurationSource = ConfigurationHelper.newInstance(fileSource);
 
             final Set<String> categoryNames = configurationSource.getCategoryNames();
             for (final String categoryName : categoryNames) {
@@ -36,8 +36,8 @@ public enum ConfigurationType {
 
         @Override
         public void generatePatch(final File fileMain, final File fileBase, final File fileDiff) {
-            final Configuration configurationMain = new Configuration(fileMain);
-            final Configuration configurationBase = fileBase.exists() ? new Configuration(fileBase) : new Configuration();
+            final Configuration configurationMain = ConfigurationHelper.newInstance(fileMain);
+            final Configuration configurationBase = ConfigurationHelper.newInstance(fileBase);
             Configuration configurationDiff = null;
 
             final Set<String> categoryNames = configurationMain.getCategoryNames();
@@ -50,7 +50,7 @@ public enum ConfigurationType {
 
                     if (!ConfigurationHelper.arePropertiesEqual(propertyMain, propertyBase)) {
                         if (configurationDiff == null) {
-                            configurationDiff = new Configuration(fileDiff);
+                            configurationDiff = ConfigurationHelper.newInstance(fileDiff);
                         }
 
                         final String comment = !Strings.isNullOrEmpty(propertyBase.getString()) ? propertyBase.getString() : Arrays.toString(propertyBase.getStringList());
