@@ -39,11 +39,22 @@ public final class ConfigurationHelper {
     }
 
     public static Configuration newInstance(final File file) {
+        return newInstance(file, false);
+    }
+
+    public static Configuration newInstance(final File file, final boolean empty) {
         if (file == null || !file.exists()) {
             return new Configuration();
         }
 
-        return new Configuration(file, true);
+        final Configuration configuration = new Configuration(file, true);
+        if (empty) {
+            for (String category : configuration.getCategoryNames()) {
+                configuration.removeCategory(configuration.getCategory(category));
+            }
+        }
+
+        return configuration;
     }
 
     public static Property getPropertyFor(final Configuration configuration, final String categoryName, final String key, final Property prop) {

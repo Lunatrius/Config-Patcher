@@ -50,7 +50,7 @@ public enum ConfigurationType {
 
                     if (!ConfigurationHelper.arePropertiesEqual(propertyMain, propertyBase)) {
                         if (configurationDiff == null) {
-                            configurationDiff = ConfigurationHelper.newInstance(fileDiff);
+                            configurationDiff = ConfigurationHelper.newInstance(fileDiff, true);
                         }
 
                         final String comment = !Strings.isNullOrEmpty(propertyBase.getString()) ? propertyBase.getString() : Arrays.toString(propertyBase.getStringList());
@@ -60,9 +60,15 @@ public enum ConfigurationType {
                 }
             }
 
-            if (configurationDiff != null && configurationDiff.hasChanged()) {
+            if (configurationDiff != null) {
                 Reference.logger.trace("Generated patch {}", fileDiff);
                 configurationDiff.save();
+            } else if (fileDiff.exists()) {
+                if (fileDiff.delete()) {
+                    Reference.logger.trace("Removed old patch {}", fileDiff);
+                } else {
+                    Reference.logger.trace("Failed to removed old patch {}", fileDiff);
+                }
             }
         }
     },
