@@ -14,6 +14,6 @@ public class Patcher {
             return;
         }
 
-        typeMain.patchFile(fileMain, fileOverride);
+        typeOverride.patchFile(fileMain, fileOverride);
     }
 }
